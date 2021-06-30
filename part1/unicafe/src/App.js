@@ -21,14 +21,23 @@ const Statistics = ({ good, bad, neutral }) => {
   )
 }
 
-const DisplayStats = ({ good, bad, neutral }) => (
-  <>
+const DisplayStats = ({ good, bad, neutral }) => {
+  let total = good + neutral + bad
+  if (total === 0) {
+    return (
+      <p>No needback given</p>
+    ) 
+  } else {
+    return (
+      <>
   <p>good: {good}</p>
   <p>neutral: {neutral}</p>
   <p>bad: {bad}</p>
   <Statistics good={good} neutral={neutral} bad={bad}/>
   </>
-)
+    )
+  }
+}
 
 const App = () => {
   const [good, setGood] = useState(0)
