@@ -6,11 +6,27 @@ const Button = ({ handleClick, text}) => (
   </button>
 )
 
+const StatCalc = ({ good, bad, neutral }) => {
+  let total = good + neutral + bad
+  let score = (good*1) + (bad*-1)
+  let average = score / total
+  let positive = (good / total)*100
+  
+  return (
+    <>
+    <p>all: {total}</p>
+    <p>average: {average}</p>
+    <p>positive: {positive}%</p>
+    </>
+  )
+}
+
 const DisplayStats = ({ good, bad, neutral }) => (
   <>
   <p>good: {good}</p>
   <p>neutral: {neutral}</p>
   <p>bad: {bad}</p>
+  <StatCalc good={good} neutral={neutral} bad={bad}/>
   </>
 )
 
