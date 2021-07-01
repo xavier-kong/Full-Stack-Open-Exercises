@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import "./index.css"
 
 const Button = ({ handleClick, text}) => (
   <button onClick={handleClick}>
@@ -7,7 +8,10 @@ const Button = ({ handleClick, text}) => (
 )
 
 const Statistic = ({ text, value }) => (
-  <p>{text}: {value}</p>
+  <>
+    <td>{text}:</td>
+    <td>{value}</td>
+  </>
 )
 
 const Statistics = ({ good, bad, neutral }) => {
@@ -18,9 +22,9 @@ const Statistics = ({ good, bad, neutral }) => {
   
   return (
     <>
-    <Statistic text="all" value={total} />
-    <Statistic text="average" value={average} />
-    <Statistic text="positive" value={positive} />
+      <tr><Statistic text="all" value={total} /></tr>
+      <tr><Statistic text="average" value={average} /></tr>
+      <tr><Statistic text="positive" value={positive} /></tr>      
     </>
   )
 }
@@ -34,10 +38,24 @@ const DisplayStats = ({ good, bad, neutral }) => {
   } else {
     return (
       <>
-  <p>good: {good}</p>
-  <p>neutral: {neutral}</p>
-  <p>bad: {bad}</p>
-  <Statistics good={good} neutral={neutral} bad={bad}/>
+  <table>
+    <tbody>
+      <tr>
+        <td>good:</td>
+        <td>{good}</td>
+      </tr>
+      <tr>
+        <td>neutral:</td>
+        <td>{neutral}</td>
+      </tr>
+      <tr>
+        <td>bad:</td>
+        <td>{bad}</td>
+      </tr>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
+    </tbody>
+  </table>
+  
   </>
     )
   }
