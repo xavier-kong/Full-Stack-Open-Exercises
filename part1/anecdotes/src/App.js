@@ -30,12 +30,22 @@ const App = () => {
     setVotes(copy)
   }
 
+  const popDote = () => {
+    var max = votes.reduce(function(a, b) {
+    return Math.max(a, b);
+});
+    return (votes.indexOf(max))
+  }
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]} <br />
       <p>has {votes[selected]} votes</p>
       <Button handleClick={() => voteDote({selected})} text="vote"/>
       <Button handleClick={() => randomNumber()} text="next anecdote"/>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[popDote()]}</p>
     </div>
   )
 }
