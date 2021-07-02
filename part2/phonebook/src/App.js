@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas',
+      number: '040-1234567'   
+  }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const checkDupe = (arr, test) => {
     let found = arr.find(element => element.name === test.name)
@@ -15,12 +18,14 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name: newName,
+      number: newNumber,
     }
     if (checkDupe(persons, personObject)) {
       window.alert(`${newName} is already added to phonebook`)
     } else {
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
     }
   }
 
@@ -29,9 +34,14 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const Display = (props) => {
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const Display = ({ name, number }) => {
     return (
-      <li>{props.name}</li>
+      <li>{name} {number}</li>
     )
   }
 
@@ -46,13 +56,19 @@ const App = () => {
           />
         </div>
         <div>
+          number: <input
+          value={newNumber}
+          onChange={handleNumberChange}
+          />
+        </div>
+        <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
       <ul>
         {persons.map(person =>
-          <Display key={person.name} name={person.name} />
+          <Display key={person.name} name={person.name} number={person.number} />
         )}
       </ul>
     </div>
