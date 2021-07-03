@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import Filter from './components/Filter';
+import Form from './components/Form';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,6 +13,21 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+
+  const handleNameChange = (event) => {
+    //console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    //console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    //console.log(event.target.value)
+    setNewFilter(event.target.value)
+  }
 
   const checkDupe = (arr, test) => {
     let found = arr.find(element => element.name === test.name)
@@ -31,41 +48,7 @@ const App = () => {
       setNewNumber('')
     }
   }
-
-  const handleNameChange = (event) => {
-    //console.log(event.target.value)
-    setNewName(event.target.value)
-  }
-
-  const handleNumberChange = (event) => {
-    //console.log(event.target.value)
-    setNewNumber(event.target.value)
-  }
-
-  const handleFilterChange = (event) => {
-    //console.log(event.target.value)
-    setNewFilter(event.target.value)
-  }
-
-  const Display = ( {name, number} ) => {
-    return (
-      <li>{name} {number}</li>
-    )
-  }
-
-  const Filter = () => {
-    const checkIncl = (name, test) => {
-      if (name.toLowerCase().includes(test.toLowerCase())) {
-        return name
-      }
-    }
-    return (
-    persons
-    .filter(obj => checkIncl(obj.name, newFilter))
-    .map(person => <Display key={person.name} name={person.name} number={person.number} />)
-    )
-  }
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -76,26 +59,18 @@ const App = () => {
         />
       </div>
       <h2>add a new</h2>
-      <form onSubmit={addNew}> 
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input
-          value={newNumber}
-          onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form 
+        addNew={addNew} 
+        newName={newName} 
+        handleNameChange={handleNameChange} newNumber={newNumber} 
+        handleNumberChange={handleNumberChange}
+        />
       <h2>Numbers</h2>
       <ul>
-        <Filter />
+        <Filter 
+          persons={persons} 
+          newFilter={newFilter}
+        />
       </ul>
     </div>
   )
