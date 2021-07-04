@@ -54,6 +54,17 @@ const App = () => {
         })
   }
 
+  const handleDeleteError = (name) => {
+    console.log("error in deleting name")
+    setErrorMessage(`${name}'s information was already deleted from server`)
+    setTimeout(() => {setErrorMessage(null)}, 5000)
+    personService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
+        })
+  }
+
   const checkDupe = (arr, test) => {
     let found = arr.find(element => element.name === test.name)
     return ((found) ? true : false )
@@ -79,6 +90,9 @@ const App = () => {
               setErrorMessage(null)
             }, 5000)
             })
+          .catch(() => {
+            handleDeleteError(newName)
+          })
       } else {
         setErrorMessage(`${newName}'s number was not changed`)
             setTimeout(() => {
@@ -123,6 +137,7 @@ const App = () => {
           persons={persons} 
           newFilter={newFilter}
           handleDelete={handleDelete}
+          handleDeleteError={handleDeleteError}
         />
       </ul>
     </div>
