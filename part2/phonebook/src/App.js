@@ -53,7 +53,19 @@ const App = () => {
       number: newNumber,
     }
     if (checkDupe(persons, personObject)) {
-      window.alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const id = personService.getId(persons, newName);
+        personService
+          .update(id, personObject)
+          .then(returnedNotes => {
+            setPersons(persons.map(person => person.id !== id ? person : returnedNotes))
+            setNewName('')
+            setNewNumber('')
+            window.alert(`${newName}'s number was changed`)
+          })
+      } else {
+        window.alert(`${newName}'s number was not changed`)
+      }
     } else {
         personService
           .create(personObject)

@@ -13,9 +13,20 @@ const create = newObject => {
 }
 
 const remove = (id) => {
-  const delUrl = `http://localhost:3001/persons/${id}`
-  const request = axios.delete(delUrl) 
+  const request = axios.delete(`${baseUrl}/${id}`) 
   return request.then(response => response.data)
 }
 
-export default { getAll, create, remove }
+const update = (id, newPerson) => {
+  const request = axios.put(`${baseUrl}/${id}`, newPerson)
+  return request.then(response => response.data)
+}
+
+const getId = (arr, name) => {
+  let pos = arr.findIndex(obj => obj.name === name)
+  return (
+    arr[pos].id
+  )
+}
+
+export default { getAll, create, remove, getId, update }

@@ -19,10 +19,11 @@ const Filter = ({ persons, newFilter, handleDelete }) => {
       return name
     }
   }
+
   return (
   persons
-  .filter(obj => checkIncl(obj.name, newFilter))
-  .map(person => <Display key={person.name} name={person.name} number={person.number} remove={() => remove(person.id, person.name, handleDelete)}/>)
+    .filter(obj => checkIncl(obj.name, newFilter))
+    .map(person => <Display key={person.name} name={person.name} number={person.number} remove={() => remove(person.id, person.name, handleDelete)}/>)
   )
 }
 

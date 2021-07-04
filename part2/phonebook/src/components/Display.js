@@ -3,7 +3,8 @@ import React from 'react';
 const Display = ({ name, number, remove }) => {
   return (
     <li>
-      {name} 
+      {name}
+      &nbsp; 
       {number}
       &nbsp;
       <button onClick={remove}>Delete</button>  
