@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+//import axios from 'axios'
 import Filter from './components/Filter';
 import Form from './components/Form';
+import personService from './services/person'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
@@ -10,11 +11,11 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    personService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
+        })
   }, [])
 
   const handleNameChange = (event) => {
@@ -46,9 +47,13 @@ const App = () => {
     if (checkDupe(persons, personObject)) {
       window.alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
+        personService
+          .create(personObject)
+          .then(returnedNotes => {
+            setPersons(persons.concat(returnedNotes))
+            setNewName('')
+            setNewNumber('')
+          })
     }
   }
   
