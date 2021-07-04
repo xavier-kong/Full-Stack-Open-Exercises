@@ -33,6 +33,14 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
+  const handleDelete = (event) => {
+    personService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
+        })
+  }
+
   const checkDupe = (arr, test) => {
     let found = arr.find(element => element.name === test.name)
     return ((found) ? true : false )
@@ -78,6 +86,7 @@ const App = () => {
         <Filter 
           persons={persons} 
           newFilter={newFilter}
+          handleDelete={handleDelete}
         />
       </ul>
     </div>

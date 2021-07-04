@@ -12,4 +12,10 @@ const create = newObject => {
   return request.then(response => response.data)
 }
 
-export default { getAll, create }
+const remove = (id) => {
+  const delUrl = `http://localhost:3001/persons/${id}`
+  const request = axios.delete(delUrl) 
+  return request.then(response => response.data)
+}
+
+export default { getAll, create, remove }

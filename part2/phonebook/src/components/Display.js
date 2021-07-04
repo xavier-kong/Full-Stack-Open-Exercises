@@ -1,8 +1,13 @@
 import React from 'react';
 
-const Display = ({ name, number }) => {
+const Display = ({ name, number, remove }) => {
   return (
-    <li>{name} {number}</li>
+    <li>
+      {name} 
+      {number}
+      &nbsp;
+      <button onClick={remove}>Delete</button>  
+    </li>
   )
 }
 
