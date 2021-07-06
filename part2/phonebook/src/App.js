@@ -91,7 +91,10 @@ const App = () => {
             }, 5000)
             })
           .catch(() => {
-            handleDeleteError(newName)
+            setErrorMessage(`Error: ${newName}'s number could not be changed`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
           })
       } else {
         setErrorMessage(`${newName}'s number was not changed`)
@@ -109,8 +112,8 @@ const App = () => {
             setErrorMessage(`${newName}'s number was added`)
             setTimeout(() => {
               setErrorMessage(null)
-            }, 5000)
-          })
+            }, 5000)})
+
     }
   }
   
