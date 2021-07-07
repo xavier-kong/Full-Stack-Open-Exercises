@@ -1,6 +1,6 @@
 # Link to online application
 
-This exercise was hosted on Heroku at
+This exercise was deployed on Heroku at
 
 https://gentle-ocean-20972.herokuapp.com/
 
