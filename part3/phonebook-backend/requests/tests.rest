@@ -1,11 +1,11 @@
-DELETE http://localhost:3001/api/persons/1
+DELETE https://gentle-ocean-20972.herokuapp.com/api/persons/951195
 ###
 
 GET http://localhost:3001/api/persons
 
 ###
 
-POST http://localhost:3001/api/persons/ HTTP/1.1
+POST https://gentle-ocean-20972.herokuapp.com/api/persons/ HTTP/1.1
 content-type: application/json
 
 { 
