@@ -36,56 +36,65 @@ app.post('/api/persons', (request, response) => {
   })
 })
 
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id)
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        response.status(404).end()
+      }
+    }) 
+    .catch(error => next(error))
+    })
 
-// app.get('/info', (request, response) => {
-//   response.send(
-//     `Phonebook has info for ${persons.length} people<br>${new Date()}`
-//   )
-// })
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+})
 
-// app.get('/api/persons/:id', (request, response) => {
-//   Person.findById(request.params.id).then(note => {
-//     response.json(note)
-//   })
-// })
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
 
-// app.delete('/api/persons/:id', (request, response) => {
-//   const id = Number(request.params.id)
-//   persons = persons.filter(note => note.id !== id)
+  const note = {
+    name: body.name,
+    number: body.number,
+  }
 
-//   response.status(204).end()
-// })
+  Person.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+})
 
-// const generateId = () => {
-//   const newId = Math.floor(Math.random() * 1000000);
-//   return newId
-// }
+app.get('/info', (request, response, next) => {
+    Person.find({}).then(notes => {
+      response.json(
+        `Phonebook has info for ${notes.length} people. Time: ${new Date()}`
+      )
+    })
+    .catch(error => next(error))
+  })
+ 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
-// app.post('/api/persons', (request, response) => {
-//   const body = request.body
-//   if (!body.name) {
-//     return response.status(400).json({ 
-//       error: 'name is missing' 
-//     })
-//   } else if (!body.number) {
-//     return response.status(400).json({ 
-//       error: 'number is missing' 
-//     })
-//   } else if (persons.find(person => person.name === body.name)) {
-//     return response.status(400).json({ 
-//       error: 'name must be unique' 
-//     })
-//   } else {
-//     const person = {
-//       id: generateId(),
-//       name: body.name,
-//       number: body.number,
-//     }
-//     persons = persons.concat(person)
-  
-//     response.json(person)
-//   }
-// })
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id'})
+  }
+  next(error)
+}
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT
