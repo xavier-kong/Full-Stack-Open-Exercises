@@ -9,7 +9,7 @@
 # testing
 /coverage
 /requests
-
+.mongo.js
 # production
 
 # misc
