@@ -14,8 +14,8 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
   })
 
 const noteSchema = new mongoose.Schema({
-  name: { type: String, unique: true},
-  number: String,
+  name: { type: String, unique: true, minLength: 3, required: true },
+  number: { type: String, minLength: 8, required: true },
 })
 
 noteSchema.set('toJSON', {

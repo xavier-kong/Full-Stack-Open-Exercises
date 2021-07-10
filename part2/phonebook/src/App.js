@@ -112,8 +112,10 @@ const App = () => {
             setErrorMessage(`${newName}'s number was added`)
             setTimeout(() => {
               setErrorMessage(null)
-            }, 5000)})
-
+            }, 5000)})        
+          .catch(error => {
+            setErrorMessage(`${error.response.data.error}`)
+          })
     }
   }
   
