@@ -4,15 +4,18 @@ const totalLikes = blogs => {
   if (blogs.length == 1) {
     return blogs[0].likes
   } else {
-    const red = blogs.reduce((a, b) => a + b.likes, 0)
-    console.log(red)
-    return (
-      red
-    )
+    return (blogs.reduce((a, b) => a + b.likes, 0))
   }
+}
+
+const favoriteBlog = blogs => {
+  const fav = blogs.reduce((max, obj) => obj.likes > max.likes? (obj) : (max))
+  const {__v, _id, url, ...res} = fav 
+  return (res)
 }
 
 module.exports = {
   dummy,
-  totalLikes
+  totalLikes,
+  favoriteBlog
 }
