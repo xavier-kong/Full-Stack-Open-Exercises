@@ -30,9 +30,28 @@ const mostBlogs = blogs => {
   return (temp.reduce((a,b) => b.blogs > a.blogs ? b : a ))
 }
 
+const mostLikes = blogs => {
+  const list = _.groupBy(blogs, "author")
+  let temp = []
+  for (const author in list) {
+    let likes = 0;
+    for (const blog in list[author]) {
+      likes += list[author][blog].likes
+    }
+    temp.push(
+      {
+        "author": author,
+        "likes": likes
+      }
+    )
+  }
+  return (temp.reduce((a,b) => b.likes > a.likes ? b : a ))
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
