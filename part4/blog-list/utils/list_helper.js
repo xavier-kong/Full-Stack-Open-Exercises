@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const dummy = blogs => 1
 
 const totalLikes = blogs => {
@@ -14,8 +16,23 @@ const favoriteBlog = blogs => {
   return (res)
 }
 
+const mostBlogs = blogs => {
+  const list = _.groupBy(blogs, "author")
+  let temp = []
+  for (const author in list) {
+    temp.push(
+      {
+        "author": author,
+        "blogs": list[author].length
+      }
+    )
+  }
+  return (temp.reduce((a,b) => b.blogs > a.blogs ? b : a ))
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
