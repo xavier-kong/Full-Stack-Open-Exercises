@@ -35,37 +35,54 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
-test('all notes are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-  const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(initialBlogs.length)
-}, 100000)
+// test('all notes are returned as json', async () => {
+//   await api
+//     .get('/api/blogs')
+//     .expect(200)
+//     .expect('Content-Type', /application\/json/)
+//   const response = await api.get('/api/blogs')
+//   expect(response.body).toHaveLength(initialBlogs.length)
+// }, 100000)
 
-test('unique identifier property of the blog posts is named id', async () => {
-  const response = await api.get('/api/blogs')
-  expect(response.body[0].id).toBeDefined()
-})
+// test('unique identifier property of the blog posts is named id', async () => {
+//   const response = await api.get('/api/blogs')
+//   expect(response.body[0].id).toBeDefined()
+// })
 
-test('blogs can be added', async () => {
-  const newBlog = {
-    title: "test title 4",
-    author: "test author 4",
-    url: "www.testurl4.com",
-    likes: 4
-  }
+// test('blogs can be added', async () => {
+//   const newBlog = {
+//     title: "test title 4",
+//     author: "test author 4",
+//     url: "www.testurl4.com",
+//     likes: 4
+//   }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(200)
+//   await api
+//     .post('/api/blogs')
+//     .send(newBlog)
+//     .expect(200)
 
-  const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(initialBlogs.length + 1)
+//   const response = await api.get('/api/blogs')
+//   expect(response.body).toHaveLength(initialBlogs.length + 1)
 
-})
+// })
+
+// test('post without likes defaults to zero likes', async () => {
+//   const newBlog = {
+//     title: "test 4 zero likes",
+//     author: "test author 4",
+//     url: "www.testurl4.com",
+//   }
+
+//   await api
+//     .post('/api/blogs')
+//     .send(newBlog)
+//     .expect(200)
+
+//   const response = await api.get('/api/blogs')
+//   expect(response.body[3]).toHaveProperty('likes', 0)
+
+// })
 
 afterAll(() => {
   mongoose.connection.close()
