@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-//import axios from 'axios'
 import Filter from './components/Filter';
 import Form from './components/Form';
 import personService from './services/person'
@@ -120,8 +119,10 @@ const App = () => {
   }
   
   return (
-    <div>
+    <div class='main'>
       <h2>Phonebook</h2>
+      <p>Demo phonebook app made with react.js, express server and mongoDB database. </p>
+      <p>Icon from https%3A%2F%2Fwww.seekpng.com%2Fpng%2Fdetail%2F135-1350884_telephone-logo-png.png&f=1&nofb=1</p>
       <Notification message={errorMessage}/>
       <div>
         filter shown with <input 
