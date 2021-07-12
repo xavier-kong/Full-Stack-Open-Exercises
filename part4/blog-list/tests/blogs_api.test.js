@@ -84,6 +84,28 @@ beforeEach(async () => {
 
 // })
 
+test('missing title and url in post results in 400 bad request', async () => {
+  const noTitle = {
+    author: "test author no title",
+    url: "www.testurl4.com",
+  }
+
+  const noUrl = {
+    title: "test title no url",
+    author: "test author no url",
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(noTitle)
+    .expect(400)
+
+  await api
+    .post('/api/blogs')
+    .send(noUrl)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
