@@ -42,7 +42,7 @@ test('all notes are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
   const response = await api.get('/api/blogs')
   expect(response.body).toHaveLength(initialBlogs.length)
-}, 100000)
+})
 
 test('unique identifier property of the blog posts is named id', async () => {
   const response = await api.get('/api/blogs')
@@ -111,8 +111,6 @@ test('can delete post', async () => {
   const notesAtStart = response.body
   const noteToDelete = response.body[0]
 
-  console.log(notesAtStart)
-
   await api
       .delete(`/api/blogs/${noteToDelete.id}`)
       .expect(204)
@@ -129,6 +127,20 @@ test('can delete post', async () => {
   expect(contents).not.toContain(noteToDelete.title)
 
 })
+
+test('can update post', async () => {
+  const response = await api.get('/api/blogs')
+  const noteToUpdate = response.body[0]
+  noteToUpdate.likes = 5
+
+  await api
+    .put(`/api/blogs/${noteToUpdate.id}`)
+    .send(noteToUpdate)
+    .expect(200)
+
+  const updatedResponse = await api.get('/api/blogs')
+  expect(updatedResponse.body[0]).toHaveProperty('likes', 5)
+}, 10000)
 
 afterAll(() => {
   mongoose.connection.close()
