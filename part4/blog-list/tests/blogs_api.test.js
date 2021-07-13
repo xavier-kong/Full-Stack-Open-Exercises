@@ -69,8 +69,8 @@ test('blogs can be added', async () => {
 
 test('post without likes defaults to zero likes', async () => {
   const newBlog = {
-    title: "test 4 zero likes",
-    author: "test author 4",
+    title: "test 5 zero likes",
+    author: "test author 5",
     url: "www.testurl4.com",
   }
 
@@ -104,6 +104,30 @@ test('missing title and url in post results in 400 bad request', async () => {
     .post('/api/blogs')
     .send(noUrl)
     .expect(400)
+})
+
+test('can delete post', async () => {
+  const response = await api.get('/api/blogs')
+  const notesAtStart = response.body
+  const noteToDelete = response.body[0]
+
+  console.log(notesAtStart)
+
+  await api
+      .delete(`/api/blogs/${noteToDelete.id}`)
+      .expect(204)
+
+  const newResponse = await api.get('/api/blogs')
+  const notesAtEnd = newResponse.body
+
+  expect(notesAtEnd).toHaveLength(
+    notesAtStart.length - 1
+  )
+
+  const contents = notesAtEnd.map(r => r.title)
+
+  expect(contents).not.toContain(noteToDelete.title)
+
 })
 
 afterAll(() => {
