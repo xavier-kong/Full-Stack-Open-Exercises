@@ -144,6 +144,66 @@ test('can update post', async () => {
   expect(updatedResponse.body[0]).toHaveProperty('likes', 5)
 }, 10000)
 
+describe('testing invalid users', () => {
+  test('bad passwords not added', async () => {
+    const newUser = {
+      "blogs": [],
+      "username": "badPass",
+      "name": "testing bad pass",
+      "password": "ps"
+    }
+  
+    await api
+      .post(`/api/users`)
+      .send(newUser)
+      .expect(400)
+  })
+  
+  test('bad usernames not added', async () => {
+    const newUser = {
+      "blogs": [],
+      "username": "un",
+      "name": "testing username",
+      "password": "avalidpassword"
+    }
+  
+    await api
+      .post(`/api/users`)
+      .send(newUser)
+      .expect(400)
+  })
+
+  test('empty passwords not added', async () => {
+    const newUser = {
+      "blogs": [],
+      "username": "a username",
+      "name": "testing empty password",
+      "password": ""
+    }
+  
+    await api
+      .post(`/api/users`)
+      .send(newUser)
+      .expect(400)
+  })
+
+  test('empty usernames not added', async () => {
+    const newUser = {
+      "blogs": [],
+      "username": "",
+      "name": "testing empty usernames",
+      "password": "avalidpassword"
+    }
+  
+    await api
+      .post(`/api/users`)
+      .send(newUser)
+      .expect(400)
+  })
+})
+
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
