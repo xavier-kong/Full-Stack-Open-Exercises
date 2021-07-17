@@ -48,6 +48,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setErrorMessage(`Welcome ${user.name}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     } catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -60,6 +64,10 @@ const App = () => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    setErrorMessage('Logged out')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
   }
 
   const addBlog = async (event) => {
@@ -71,6 +79,10 @@ const App = () => {
     }
     try {
       const returnedBlogs = await blogService.create(newBlog)
+      setErrorMessage(`Added new blog: ${title} by ${author}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
       setBlogs(blogs.concat(returnedBlogs))
       setTitle('')
       setAuthor('')
@@ -85,9 +97,9 @@ const App = () => {
   }
 
   return (
-    <div>
-        <Notification message={errorMessage} />
-        <h1>Blogs</h1>
+    <div className = "main">
+        <Notification message={errorMessage} className = "error"/>
+        <div className = 'headtitle'><h1>Blogslist App</h1></div>
         
         {user === null ?
         <>
