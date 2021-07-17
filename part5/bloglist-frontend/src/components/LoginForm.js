@@ -3,7 +3,6 @@ import React from 'react'
 export const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }) => {
   return (
     <>
-      
       <form onSubmit={handleLogin}>
       <div>
         username&nbsp;
@@ -25,7 +24,6 @@ export const LoginForm = ({ handleLogin, username, setUsername, password, setPas
       </div>
       <button type="submit">login</button>
     </form>
-
     </>
   )
 }
