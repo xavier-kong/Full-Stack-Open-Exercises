@@ -67,7 +67,7 @@ const App = () => {
       }, 5000)
   }
 
-  const addBlog = async (newBlog) => {
+  const addNewBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility()
     try {
       const returnedBlogs = await blogService.create(newBlog)
@@ -84,9 +84,24 @@ const App = () => {
     }
   }
 
+  const addLikes = async (newBlog) => {
+    try {
+      await blogService.update(newBlog)
+      setErrorMessage(`Liked blog: ${newBlog.title} by ${newBlog.author}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setErrorMessage('Error adding like')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   const blogForm = () => (
     <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-      <AddBlogs newBlog = {addBlog} />
+      <AddBlogs addNewBlog = {addNewBlog} />
     </Togglable>
   )
 
@@ -108,7 +123,7 @@ const App = () => {
           {blogForm()}
           <h2>blogs</h2>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} addLikes={addLikes}/>
           )}
         </>
         }

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-const Blog = ({blog}) => {
-  const [visible, setVisible] = useState(false)
 
+const Blog = ({ blog, addLikes }) => {
+  const [visible, setVisible] = useState(false)
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
-
   const toggleVisibility = () => {
     setVisible(!visible)
   }
@@ -18,6 +17,13 @@ const Blog = ({blog}) => {
     marginBottom: 5
   }
 
+  const addLike = async (event) => {
+    event.preventDefault()
+    let newBlog = blog
+    newBlog.likes += 1
+    addLikes(newBlog)
+  }
+      
   return (
     <div style ={blogStyle}>
       <div>  
@@ -28,7 +34,7 @@ const Blog = ({blog}) => {
       <div style={showWhenVisible}>
         <ul className = 'blogdetails'>
           <li>{blog.url}</li>
-          <li>likes: {blog.likes} <button>like</button></li>
+          <li>likes: {blog.likes} <button onClick={addLike}>like</button></li>
           <li>{(blog.user) ? blog.user.name : "User not found"}</li>
         </ul>
       </div>
