@@ -1,6 +1,23 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-const AddBlogs = ({ title, setTitle, author, setAuthor, url, setUrl, addBlog }) => {
+const AddBlogs = ({ newBlog }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    newBlog({
+      title: title, 
+      author: author, 
+      url: url
+    })
+
+    setTitle('')
+    setAuthor('')
+    setUrl('') 
+  }
+
   return (
     <>
       <h2>create new</h2>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
@@ -6,6 +6,7 @@ import AddBlogs from './components/AddBlogs'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,9 +14,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null) 
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -70,31 +69,28 @@ const App = () => {
       }, 5000)
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: title, 
-      author: author, 
-      url: url
-    }
+  const addBlog = async (newBlog) => {
+    blogFormRef.current.toggleVisibility()
     try {
       const returnedBlogs = await blogService.create(newBlog)
-      setErrorMessage(`Added new blog: ${title} by ${author}`)
+      setErrorMessage(`Added new blog: ${newBlog.title} by ${newBlog.author}`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
       setBlogs(blogs.concat(returnedBlogs))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
     } catch (exception) {
       setErrorMessage('Error adding blogs')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
-    
   }
+
+  const blogForm = () => (
+    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
+      <AddBlogs newBlog = {addBlog} />
+    </Togglable>
+  )
 
   return (
     <div className = "main">
@@ -109,7 +105,7 @@ const App = () => {
         <div>
           <p>{user.name} logged-in</p>
           <Logout handleLogout = {handleLogout}/>
-          <AddBlogs title = {title} setTitle = {setTitle} author = {author} setAuthor = {setAuthor} url = {url} setUrl = {setUrl} addBlog = {addBlog}/>
+          {blogForm()}
           <h2>blogs</h2>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
