@@ -75,7 +75,9 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+      returnedBlogs.user = user
       setBlogs(blogs.concat(returnedBlogs))
+      setUser(user)
     } catch (exception) {
       setErrorMessage('Error adding blogs')
       setTimeout(() => {
@@ -93,6 +95,23 @@ const App = () => {
       }, 5000)
     } catch (exception) {
       setErrorMessage('Error adding like')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
+  const deleteBlogs = async (blog) => {
+    try {
+      const temp = blog
+      await blogService.remove(blog)
+      setErrorMessage(`Deleted blog: ${temp.title} by ${temp.author}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      setBlogs(blogs.filter((blog) => blog !== temp ))
+    } catch (exception) {
+      setErrorMessage('Error deleting blogs')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -125,7 +144,7 @@ const App = () => {
           {blogs
             .sort((a, b) => (a.likes - b.likes))
             .map(blog =>
-              <Blog key={blog.id} blog={blog} addLikes={addLikes}/>
+              <Blog key={blog.id} blog={blog} addLikes={addLikes} user={user} deleteBlogs={deleteBlogs}/>
           )}
         </>
         }
