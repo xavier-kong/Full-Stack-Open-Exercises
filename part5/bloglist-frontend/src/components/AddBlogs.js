@@ -12,7 +12,6 @@ const AddBlogs = ({ newBlog }) => {
       author: author, 
       url: url
     })
-
     setTitle('')
     setAuthor('')
     setUrl('') 
@@ -24,7 +23,7 @@ const AddBlogs = ({ newBlog }) => {
       <form onSubmit={addBlog}>
       <div>
         title&nbsp;
-          <input
+          <input 
           type="text"
           value={title}
           name="Title"
