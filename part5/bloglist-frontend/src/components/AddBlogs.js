@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const AddBlogs = ({ addNewBlog }) => {
@@ -9,48 +9,48 @@ const AddBlogs = ({ addNewBlog }) => {
   const addBlog = async (event) => {
     event.preventDefault()
     addNewBlog({
-      title: title, 
-      author: author, 
+      title: title,
+      author: author,
       url: url
     })
     setTitle('')
     setAuthor('')
-    setUrl('') 
+    setUrl('')
   }
 
   return (
     <>
       <h2>create new</h2>
       <form onSubmit={addBlog}>
-      <div>
+        <div>
         title&nbsp;
-          <input 
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
+          <input
+            type="text"
+            value={title}
+            name="Title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
         author&nbsp;
           <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
+            type="text"
+            value={author}
+            name="Author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
         url&nbsp;
           <input
-          type="text"
-          value={url}
-          name="Url"
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button type="submit">create</button>
-      </form> 
+            type="text"
+            value={url}
+            name="Url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form>
     </>
   )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 const Logout = ({ handleLogout }) => (
-  
-    <form onSubmit={handleLogout}>
-      <button type="submit">logout</button>
-    </form>  
-   
+
+  <form onSubmit={handleLogout}>
+    <button type="submit">logout</button>
+  </form>
+
 )
 
 export default Logout

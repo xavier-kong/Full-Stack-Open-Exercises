@@ -10,16 +10,16 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null) 
+  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -62,9 +62,9 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
     setErrorMessage('Logged out')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   }
 
   const addNewBlog = async (newBlog) => {
@@ -126,13 +126,13 @@ const App = () => {
 
   return (
     <div className = "main">
-        <Notification message={errorMessage} className = "error"/>
-        <div className = 'headtitle'><h1>Blogslist App</h1></div>
-        
-        {user === null ?
+      <Notification message={errorMessage} className = "error"/>
+      <div className = 'headtitle'><h1>Blogslist App</h1></div>
+
+      {user === null ?
         <>
           <h2>Log in to application</h2>
-          <LoginForm handleLogin = {handleLogin} username = {username} setUsername = {setUsername} password = {password} setPassword = {setPassword}/> 
+          <LoginForm handleLogin = {handleLogin} username = {username} setUsername = {setUsername} password = {password} setPassword = {setPassword}/>
         </>:
         <>
           <div className='userlogout'>
@@ -145,9 +145,9 @@ const App = () => {
             .sort((a, b) => (a.likes - b.likes))
             .map(blog =>
               <Blog key={blog.id} blog={blog} addLikes={addLikes} user={user} deleteBlogs={deleteBlogs}/>
-          )}
+            )}
         </>
-        }
+      }
     </div>
   )
 }
