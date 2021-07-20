@@ -29,6 +29,7 @@ const AddBlogs = ({ addNewBlog }) => {
             value={title}
             name="Title"
             onChange={({ target }) => setTitle(target.value)}
+            id="title"
           />
         </div>
         <div>
@@ -38,6 +39,7 @@ const AddBlogs = ({ addNewBlog }) => {
             value={author}
             name="Author"
             onChange={({ target }) => setAuthor(target.value)}
+            id="author"
           />
         </div>
         <div>
@@ -47,6 +49,7 @@ const AddBlogs = ({ addNewBlog }) => {
             value={url}
             name="Url"
             onChange={({ target }) => setUrl(target.value)}
+            id="url"
           />
         </div>
         <button type="submit">create</button>

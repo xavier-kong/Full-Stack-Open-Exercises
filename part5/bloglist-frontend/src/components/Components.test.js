@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
+import AddBlogs from './AddBlogs'
 
 describe('<Blog />', () => {
 
@@ -67,4 +68,35 @@ describe('<Blog />', () => {
 
     expect(mockLikes.mock.calls).toHaveLength(2)
   })
+
+
+})
+
+test('<AddBlogs />', () => {
+  const mockAddBlog = jest.fn()
+
+  const component = render(
+    <AddBlogs addNewBlog = {mockAddBlog} />
+  )
+
+  const titleField = component.container.querySelector('#title')
+  const authorField = component.container.querySelector('#author')
+  const urlField = component.container.querySelector('#url')
+  const createButton = component.getByText('create')
+
+  fireEvent.change(titleField, {
+    target: { value: 'test title' },
+  })
+  fireEvent.change(authorField, {
+    target: { value: 'test author' },
+  })
+  fireEvent.change(urlField, {
+    target: { value: 'test url' },
+  })
+  fireEvent.click(createButton)
+
+  expect(mockAddBlog.mock.calls).toHaveLength(1)
+  expect(mockAddBlog.mock.calls[0][0].title).toBe('test title')
+  expect(mockAddBlog.mock.calls[0][0].author).toBe('test author')
+  expect(mockAddBlog.mock.calls[0][0].url).toBe('test url')
 })
