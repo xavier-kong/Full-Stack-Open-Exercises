@@ -45,7 +45,12 @@ module.exports = {
           "error", { "before": true, "after": true }
       ],
       "no-console": 0,
-      "react/prop-types": 0
+      "react/prop-types": 0,
+      "no-explicit-any": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "import/no-named-as-default": 0,
+      "import/no-anonymous-default-export": "off",
+      "import/prefer-default-export": 0
   },
   "settings": {
     "react": {
