@@ -8,6 +8,7 @@ export const LoginForm = ({ handleLogin, username, setUsername, password, setPas
         <div>
         username&nbsp;
           <input
+            id='testloginformusername'
             type="text"
             value={username}
             name="Username"
@@ -17,13 +18,14 @@ export const LoginForm = ({ handleLogin, username, setUsername, password, setPas
         <div>
         password&nbsp;
           <input
+            id='testloginformpassword'
             type="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <button type="submit" id='testloginformsubmit'>login</button>
       </form>
     </>
   )

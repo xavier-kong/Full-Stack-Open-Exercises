@@ -5,6 +5,10 @@ describe('Blog app', function() {
   })
 
   it('Login form is shown', function() {
-    // ...
+    cy.visit('http://localhost:3000')
+    cy.contains('Log in to application')
+    cy.get('#testloginformusername')
+    cy.get('#testloginformpassword')
+    cy.get('#testloginformsubmit')
   })
 })
