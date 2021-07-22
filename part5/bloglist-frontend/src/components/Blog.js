@@ -36,13 +36,13 @@ const Blog = ({ blog, addLikes, user, deleteBlogs }) => {
     <div style ={blogStyle}>
       <div className='testrendertitleauthor'>
         {blog.title} {blog.author} &nbsp;
-        <button onClick={toggleVisibility} style={hideWhenVisible}>view</button>
+        <button onClick={toggleVisibility} style={hideWhenVisible} id='viewbutton'>view</button>
         <button onClick={toggleVisibility} style={showWhenVisible}>cancel</button>
       </div>
       <div style={showWhenVisible} className='testdivdetails'>
         <ul className = 'blogdetails'>
           <li>{blog.url}</li>
-          <li>likes: {blog.likes} <button onClick={addLike}>like</button></li>
+          <li id='bloglikes'>likes: {blog.likes} <button onClick={addLike} id='likebutton'>like</button></li>
           <li>{(blog.user) ? blog.user.name : 'User not found'}</li>
           <li>{((blog.user && user.name === blog.user.name)) ? <button onClick={deleteBlog}>delete</button> : null}</li>
         </ul>
