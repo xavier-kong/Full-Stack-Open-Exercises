@@ -33,11 +33,11 @@ const Blog = ({ blog, addLikes, user, deleteBlogs }) => {
   }
 
   return (
-    <div style ={blogStyle}>
+    <div style ={blogStyle} >
       <div className='testrendertitleauthor'>
         {blog.title} {blog.author} &nbsp;
         <button onClick={toggleVisibility} style={hideWhenVisible} id='viewbutton'>view</button>
-        <button onClick={toggleVisibility} style={showWhenVisible}>cancel</button>
+        <button onClick={toggleVisibility} style={showWhenVisible} id='cancelbutton'>cancel</button>
       </div>
       <div style={showWhenVisible} className='testdivdetails'>
         <ul className = 'blogdetails'>

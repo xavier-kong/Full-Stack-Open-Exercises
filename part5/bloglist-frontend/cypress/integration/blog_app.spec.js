@@ -90,5 +90,17 @@ describe('Blog app', function() {
       cy.should('not.contain', 'a blog title created by cypress')
       cy.get('html').should('contain', 'Deleted blog: a blog title created by cypress by blog cypress')
     })
+
+    it('blogs are ordered by likes', function() {
+      cy.createBlog({ title: '1 like', author: 'author', url:'www.cypresstest.com', likes: 1 })
+      cy.createBlog({ title: '2 like', author: 'author', url:'www.cypresstest.com', likes: 2 })
+      cy.createBlog({ title: '3 like', author: 'author', url:'www.cypresstest.com', likes: 3 })
+
+      cy.get('[class="testdivdetails"]').eq(1)
+      cy.get('[id="bloglikes"]').eq(0).should('contain', '1')
+      cy.get('[id="bloglikes"]').eq(1).should('contain', '2')
+      cy.get('[id="bloglikes"]').eq(2).should('contain', '3')
+
+    })
   })
 })
