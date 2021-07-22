@@ -48,4 +48,19 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'Cypress Test User logged in')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'cypresstest', password: 'cypresstest' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('a blog title created by cypress')
+      cy.get('#author').type('blog cypress')
+      cy.get('#url').type('www.blogurl.cypress')
+      cy.get('#submitblog').click()
+      cy.contains('a blog title created by cypress')
+    })
+  })
 })
