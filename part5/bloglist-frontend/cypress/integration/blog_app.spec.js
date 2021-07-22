@@ -63,7 +63,7 @@ describe('Blog app', function() {
       cy.contains('a blog title created by cypress')
     })
 
-    it.only('A blog can be liked', function() {
+    it('A blog can be liked', function() {
       cy.contains('create new blog').click()
       cy.get('#title').type('a blog title created by cypress')
       cy.get('#author').type('blog cypress')
@@ -77,6 +77,18 @@ describe('Blog app', function() {
         .should('contain', 1)
     })
 
+    it('A blog can be deleted by user', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('a blog title created by cypress')
+      cy.get('#author').type('blog cypress')
+      cy.get('#url').type('www.blogurl.cypress')
+      cy.get('#submitblog').click()
 
+      cy.get('#viewbutton').click()
+      cy.get('#deletebutton').click()
+
+      cy.should('not.contain', 'a blog title created by cypress')
+      cy.get('html').should('contain', 'Deleted blog: a blog title created by cypress by blog cypress')
+    })
   })
 })

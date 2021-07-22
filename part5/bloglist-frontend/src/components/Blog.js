@@ -44,7 +44,7 @@ const Blog = ({ blog, addLikes, user, deleteBlogs }) => {
           <li>{blog.url}</li>
           <li id='bloglikes'>likes: {blog.likes} <button onClick={addLike} id='likebutton'>like</button></li>
           <li>{(blog.user) ? blog.user.name : 'User not found'}</li>
-          <li>{((blog.user && user.name === blog.user.name)) ? <button onClick={deleteBlog}>delete</button> : null}</li>
+          <li>{((blog.user && user.name === blog.user.name)) ? <button onClick={deleteBlog} id='deletebutton'>delete</button> : null}</li>
         </ul>
       </div>
     </div>
