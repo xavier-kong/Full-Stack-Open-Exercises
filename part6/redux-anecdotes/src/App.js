@@ -28,7 +28,7 @@ const App = () => {
             {anecdote.content}
           </div>
           <div>
-            has {anecdote.votes}
+            has {anecdote.votes} &nbsp;
             <button onClick={() => vote(anecdote.id)}>vote</button>
           </div>
         </div>
