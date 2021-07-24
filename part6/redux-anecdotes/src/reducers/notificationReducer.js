@@ -1,5 +1,5 @@
 const initialState = {
-  content: ''
+  content: null
 }
 
 const notificationReducer = (state = initialState, action) => {
@@ -17,7 +17,7 @@ const notificationReducer = (state = initialState, action) => {
     case 'DENOTIFY':
       return {
         ...state,
-        content: ''
+        content: null
       }
     default:
       return state
