@@ -26,7 +26,7 @@ export const initializeAnecdotes = () => {
     const anecs = await anecdoteService.getAll()
     dispatch({
       type: 'INIT_ANECS',
-    data: anecs,
+      data: anecs,
     })
   }
 }

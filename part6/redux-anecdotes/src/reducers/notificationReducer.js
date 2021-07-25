@@ -4,15 +4,10 @@ const initialState = {
 
 const notificationReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'NOTIFY_VOTE':
+    case 'NOTIFY':
       return {
         ...state,
-        content: `You voted for ${action.data}`
-      }
-    case 'NOTIFY_ADD':
-      return {
-        ...state,
-        content: `You added ${action.data}`
+        content: action.data
       }
     case 'DENOTIFY':
       return {
@@ -24,23 +19,20 @@ const notificationReducer = (state = initialState, action) => {
   }
 }
 
-export const notifyVote = (anec) => {
-  return {
-    type: 'NOTIFY_VOTE',
-    data: anec
-  }
-}
-
 export const denotify = () => {
   return {
     type: 'DENOTIFY'
   }
 }
 
-export const notifyAdd = (anec) => {
-  return {
-    type: 'NOTIFY_ADD',
-    data: anec
+export const setNotification = (content, time) => {
+  return async dispatch => {
+    dispatch({
+      type: 'NOTIFY',
+      data: content
+    })
+
+    setTimeout(() => {dispatch(denotify())}, time*1000)
   }
 }
 
