@@ -4,33 +4,6 @@ import {
   Switch, Route, Link
 } from 'react-router-dom'
 
-// const Menu = () => {
-//   const padding = {
-//     paddingRight: 5
-//   }
-//   return (
-//     <Router>
-//       <div>
-//         <Link style={padding} to="/">anecdotes</Link>
-//         <Link style={padding} to="/create">create new</Link>
-//         <Link style={padding} to="/about">about</Link>
-//       </div>
-
-//       <Switch>
-//         <Route path="/">
-//         <AnecdoteList anecdotes={anecdotes} />
-//         </Route>
-//         <Route path="/create">
-//         <CreateNew addNew={addNew} />
-//         </Route>
-//         <Route path="/about">
-//           <About />
-//         </Route>
-//       </Switch>
-//     </Router>
-//   )
-// }
-
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
@@ -164,24 +137,13 @@ const App = () => {
             <AnecdoteList anecdotes={anecdotes} />
           </Route>
         </Switch>
-        
+
       </Router>
       <div>
         <Footer />
       </div>
     </div>
   )
-
-  // return (
-  //   <div>
-  //     <h1>Software anecdotes</h1>
-  //     <Menu />
-  //     <AnecdoteList anecdotes={anecdotes} />
-  //     <About />
-  //     <CreateNew addNew={addNew} />
-  //     <Footer />
-  //   </div>
-  // )
 }
 
 export default App;
