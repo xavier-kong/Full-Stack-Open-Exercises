@@ -2,6 +2,8 @@ const initialState = {
   content: null
 }
 
+let denotifyTimeout = 0
+
 const notificationReducer = (state = initialState, action) => {
   switch(action.type) {
     case 'NOTIFY':
@@ -9,30 +11,23 @@ const notificationReducer = (state = initialState, action) => {
         ...state,
         content: action.data
       }
-    case 'DENOTIFY':
-      return {
-        ...state,
-        content: null
-      }
     default:
       return state
   }
 }
 
-export const denotify = () => {
-  return {
-    type: 'DENOTIFY'
-  }
-}
-
 export const setNotification = (content, time) => {
   return async dispatch => {
+    clearTimeout(denotifyTimeout)
+    denotifyTimeout = setTimeout(() => {dispatch({
+      type: 'NOTIFY',
+      data: null
+    })}, time*1000)
+    
     dispatch({
       type: 'NOTIFY',
       data: content
     })
-
-    setTimeout(() => {dispatch(denotify())}, time*1000)
   }
 }
 
