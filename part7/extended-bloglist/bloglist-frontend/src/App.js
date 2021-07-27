@@ -9,7 +9,7 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import { setErrorMessage } from './reducers/notificationReducer' 
 import { useSelector, useDispatch } from 'react-redux'
-import { createBlog, initializeBlogs } from './reducers/blogReducer'
+import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -72,7 +72,7 @@ const App = () => {
 
   const addLikes = async (newBlog) => {
     try {
-      await blogService.update(newBlog)
+      dispatch(likeBlog(newBlog))
       dispatch(setErrorMessage(`Liked blog: ${newBlog.title} by ${newBlog.author}`))
     } catch (exception) {
       dispatch(setErrorMessage('Error adding like'))
@@ -81,10 +81,8 @@ const App = () => {
 
   const deleteBlogs = async (blog) => {
     try {
-      const temp = blog
-      await blogService.remove(blog)
-      dispatch(setErrorMessage(`Deleted blog: ${temp.title} by ${temp.author}`))
-      //setBlogs(blogs.filter((blog) => blog !== temp ))
+      await dispatch(deleteBlog(blog))
+      dispatch(setErrorMessage(`Deleted blog: ${blog.title} by ${blog.author}`))
     } catch (exception) {
       dispatch(setErrorMessage('Error deleting blogs'))
     }
