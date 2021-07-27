@@ -9,9 +9,9 @@ import loginService from './services/login'
 import Togglable from './components/Togglable'
 import { setErrorMessage } from './reducers/notificationReducer' 
 import { useSelector, useDispatch } from 'react-redux'
+import { createBlog, initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -19,10 +19,8 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -32,6 +30,8 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const blogs = useSelector(state => state.blogs)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -63,11 +63,8 @@ const App = () => {
   const addNewBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility()
     try {
-      const returnedBlogs = await blogService.create(newBlog)
+      dispatch(createBlog(newBlog))
       dispatch(setErrorMessage(`Added new blog: ${newBlog.title} by ${newBlog.author}`))
-      returnedBlogs.user = user
-      setBlogs(blogs.concat(returnedBlogs))
-      setUser(user)
     } catch (exception) {
       dispatch(setErrorMessage('Error adding blogs'))
     }
@@ -87,7 +84,7 @@ const App = () => {
       const temp = blog
       await blogService.remove(blog)
       dispatch(setErrorMessage(`Deleted blog: ${temp.title} by ${temp.author}`))
-      setBlogs(blogs.filter((blog) => blog !== temp ))
+      //setBlogs(blogs.filter((blog) => blog !== temp ))
     } catch (exception) {
       dispatch(setErrorMessage('Error deleting blogs'))
     }
@@ -101,7 +98,7 @@ const App = () => {
 
   return (
     <div className = "main">
-      <Notification message={useSelector(state => state.content)} className = "error"/>
+      <Notification />
       <div className = 'headtitle'><h1>Blogslist App</h1></div>
 
       {user === null ?
