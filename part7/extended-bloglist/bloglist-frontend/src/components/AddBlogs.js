@@ -1,10 +1,25 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { setErrorMessage } from '../reducers/notificationReducer' 
+import Togglable from './Togglable'
 
-const AddBlogs = ({ addNewBlog }) => {
+const AddBlogs = React.forwardRef((props, ref) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const dispatch = useDispatch()
+  
+
+  const addNewBlog = async (newBlog) => {
+    ref.current.toggleVisibility()
+    try {
+      dispatch(createBlog(newBlog))
+      dispatch(setErrorMessage(`Added new blog: ${newBlog.title} by ${newBlog.author}`))
+    } catch (exception) {
+      dispatch(setErrorMessage('Error adding blogs'))
+    }
+  }
 
   const addBlog = async (event) => {
     event.preventDefault()
@@ -57,9 +72,15 @@ const AddBlogs = ({ addNewBlog }) => {
     </>
   )
 }
+)
 
-AddBlogs.propTypes = {
-  addNewBlog: PropTypes.func.isRequired
+const BlogForm = () => {
+  const blogFormRef = useRef() 
+  return (
+    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
+      <AddBlogs ref={blogFormRef}/>
+    </Togglable>
+  )
 }
 
-export default AddBlogs
+export default BlogForm

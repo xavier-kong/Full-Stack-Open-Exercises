@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import Blog from './Blog'
-import { blogService } from '../services/blogs'
 import { useSelector, useDispatch } from 'react-redux'
 import { setErrorMessage } from '../reducers/notificationReducer'
-import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
+import { initializeBlogs, likeBlog, deleteBlog } from '../reducers/blogReducer'
 
-const Blogs = () => {
+const Blogs = (user) => {
   const dispatch = useDispatch()
 
   useEffect(() => {

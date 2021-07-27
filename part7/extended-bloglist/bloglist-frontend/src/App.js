@@ -1,26 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
+import React, { useState, useEffect } from 'react'
+import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
-import AddBlogs from './components/AddBlogs'
+import BlogForm from './components/AddBlogs'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Togglable from './components/Togglable'
 import { setErrorMessage } from './reducers/notificationReducer' 
-import { useSelector, useDispatch } from 'react-redux'
-import { createBlog, initializeBlogs, likeBlog, deleteBlog } from './reducers/blogReducer'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const blogFormRef = useRef() 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -30,8 +23,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const blogs = useSelector(state => state.blogs)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -60,45 +51,10 @@ const App = () => {
     dispatch(setErrorMessage('Logged out'))
   }
 
-  const addNewBlog = async (newBlog) => {
-    blogFormRef.current.toggleVisibility()
-    try {
-      dispatch(createBlog(newBlog))
-      dispatch(setErrorMessage(`Added new blog: ${newBlog.title} by ${newBlog.author}`))
-    } catch (exception) {
-      dispatch(setErrorMessage('Error adding blogs'))
-    }
-  }
-
-  const addLikes = async (newBlog) => {
-    try {
-      dispatch(likeBlog(newBlog))
-      dispatch(setErrorMessage(`Liked blog: ${newBlog.title} by ${newBlog.author}`))
-    } catch (exception) {
-      dispatch(setErrorMessage('Error adding like'))
-    }
-  }
-
-  const deleteBlogs = async (blog) => {
-    try {
-      await dispatch(deleteBlog(blog))
-      dispatch(setErrorMessage(`Deleted blog: ${blog.title} by ${blog.author}`))
-    } catch (exception) {
-      dispatch(setErrorMessage('Error deleting blogs'))
-    }
-  }
-
-  const blogForm = () => (
-    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-      <AddBlogs addNewBlog = {addNewBlog} />
-    </Togglable>
-  )
-
   return (
     <div className = "main">
       <Notification />
       <div className = 'headtitle'><h1>Blogslist App</h1></div>
-
       {user === null ?
         <>
           <h2>Log in to application</h2>
@@ -109,13 +65,8 @@ const App = () => {
             {user.name} logged in&nbsp;
             <Logout handleLogout = {handleLogout}/>
           </div>
-          {blogForm()}
-          <h2>blogs</h2>
-          {blogs
-            .sort((a, b) => (a.likes - b.likes))
-            .map(blog =>
-              <Blog key={blog.id} blog={blog} addLikes={addLikes} user={user} deleteBlogs={deleteBlogs}/>
-            )}
+          <BlogForm />
+          <Blogs user={user}/>
         </>
       }
     </div>
