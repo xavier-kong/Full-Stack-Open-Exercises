@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setErrorMessage } from '../reducers/notificationReducer'
 import { initializeBlogs, likeBlog, deleteBlog } from '../reducers/blogReducer'
 
-const Blogs = (user) => {
+const Blogs = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -12,6 +12,8 @@ const Blogs = (user) => {
   }, [dispatch])
 
   const blogs = useSelector(state => state.blogs)
+
+  const user = useSelector(state => state.user)
 
   const addLikes = async (newBlog) => {
     try {
