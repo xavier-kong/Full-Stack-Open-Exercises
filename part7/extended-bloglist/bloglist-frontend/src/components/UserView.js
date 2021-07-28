@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllUsers } from '../reducers/usersReducer'
+import { Link } from 'react-router-dom'
 
-const User = ({ name, blogs }) => {
+const User = ({ user, blogs }) => {
   return (
       <tr>
-        <th id = 'table_user_name'>{name}</th>
+        <th id = 'table_user_name'><Link to={`/users/${user.id}`}>{user.name}</Link></th>
         <th>{blogs}</th>
       </tr>
   )
@@ -32,7 +33,7 @@ const UserView = () => {
           {users
           .sort((a, b) => (a.blogs.length - b.blogs.length))
           .map(user =>
-            <User key={user.id} name={user.name} blogs={user.blogs.length}/>
+            <User key={user.id} user={user} blogs={user.blogs.length}/>
           )}
         </tbody> 
       </table>

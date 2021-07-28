@@ -5,11 +5,11 @@ import Logout from './components/Logout'
 import BlogForm from './components/AddBlogs'
 import UserView from './components/UserView'
 import Notification from './components/Notification'
+import User from './components/User'
 import { useSelector } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 const App = () => {
-
   const user = useSelector(state => state.user)
 
   return (
@@ -33,6 +33,9 @@ const App = () => {
 
     <Router>
       <Switch>
+        <Route path='/users/:id'>
+          <User />
+        </Route>
         <Route path='/users'>
           <UserView />
         </Route>
