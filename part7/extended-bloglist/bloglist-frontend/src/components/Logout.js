@@ -13,9 +13,7 @@ const Logout = () => {
   }
 
   return (
-    <form onSubmit={handleLogout}>
-      <button type="submit">logout</button>
-    </form>
+    <button onClick={handleLogout}>logout</button>
   )
 }
 
