@@ -1,58 +1,74 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router'
+import { setErrorMessage } from '../reducers/notificationReducer'
+import { initializeBlogs, likeBlog, deleteBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, addLikes, user, deleteBlogs }) => {
-  const [visible, setVisible] = useState(false)
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
+const Blog = () => {
+  const id = useParams().id
+  const dispatch = useDispatch()
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 5,
-    paddingBottom: 10,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
+  const blogs = useSelector(state => state.blogs)
+  const blog = blogs.find(blog => blog.id === id)
+  const user = useSelector(state => state.user)
 
   const addLike = event => {
     event.preventDefault()
     let newBlog = blog
     newBlog.likes += 1
-    addLikes(newBlog)
-  }
-
-  const deleteBlog = event => {
-    event.preventDefault()
-    if (window.confirm(`Are you sure you want to delete ${blog.title} by ${blog.author}`)) {
-      deleteBlogs(blog)
+    try {
+      dispatch(likeBlog(newBlog))
+      dispatch(setErrorMessage(`Liked blog: ${newBlog.title} by ${newBlog.author}`))
+    } catch (exception) {
+      dispatch(setErrorMessage('Error adding like'))
     }
   }
 
+  const deleteBlogs = event => {
+    event.preventDefault()
+    if (window.confirm(`Are you sure you want to delete ${blog.title} by ${blog.author}`)) {
+      deleteBlog(blog)
+    }
+    try {
+      const temp = blog
+      dispatch(deleteBlog(blog))
+      dispatch(setErrorMessage(`Deleted blog: ${temp.title} by ${temp.author}`))
+    } catch (exception) {
+      dispatch(setErrorMessage('Error deleting blogs'))
+    }
+  }
+
+  while (!blog) {
+    return null
+  }
+
   return (
-    <div style ={blogStyle} >
-      <div className='testrendertitleauthor'>
-        {blog.title} {blog.author} &nbsp;
-        <button onClick={toggleVisibility} style={hideWhenVisible} id='viewbutton'>view</button>
-        <button onClick={toggleVisibility} style={showWhenVisible} id='cancelbutton'>cancel</button>
+    <div>
+      <h1>{blog.title}</h1>
+      <div>url: {blog.url}</div><br />
+
+      <div id='bloglikes'>likes: {blog.likes}&nbsp;
+        <button onClick={addLike} id='likebutton'>
+          like
+        </button>
+      </div><br />
+
+      {((blog.user!==undefined) 
+        ? <div>Added by {blog.user.name}</div> 
+        : <div>User not found</div>)}
+
+      <div>
+        {((blog.user && user.name === blog.user.name)) 
+        ? <button onClick={deleteBlogs} id='deletebutton'>delete</button> 
+        : null}
       </div>
-      <div style={showWhenVisible} className='testdivdetails'>
-        <ul className = 'blogdetails'>
-          <li>{blog.url}</li>
-          <li id='bloglikes'>likes: {blog.likes} <button onClick={addLike} id='likebutton'>like</button></li>
-          <li>{(blog.user) ? blog.user.name : 'User not found'}</li>
-          <li>{((blog.user && user.name === blog.user.name)) ? <button onClick={deleteBlog} id='deletebutton'>delete</button> : null}</li>
-        </ul>
-      </div>
+
     </div>
   )
 }
 
-Blog.propTypes = {
-  addLikes: PropTypes.func.isRequired,
-  deleteBlogs: PropTypes.func.isRequired
-}
 export default Blog

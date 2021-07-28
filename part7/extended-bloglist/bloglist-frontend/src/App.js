@@ -1,5 +1,6 @@
 import React from 'react'
 import Blogs from './components/Blogs'
+import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import BlogForm from './components/AddBlogs'
@@ -13,8 +14,8 @@ const App = () => {
   const user = useSelector(state => state.user)
 
   return (
-    <>
     <div className = "main">
+    <div>
       <Notification />
       <div className = 'headtitle'><h1>Blogslist App</h1></div>
       {user === null ?
@@ -33,6 +34,9 @@ const App = () => {
 
     <Router>
       <Switch>
+        <Route path='/blogs/:id'>
+          <Blog />
+        </Route>
         <Route path='/users/:id'>
           <User />
         </Route>
@@ -45,7 +49,7 @@ const App = () => {
         </Route>
       </Switch>
     </Router>
-  </>
+  </div>
   )
 }
 
