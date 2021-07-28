@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const Comment = require('../models/comment')
 const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
-    .find({}).populate('user', { username: 1, name: 1 })
+    .find({}).populate('user', { username: 1, name: 1 }).populate('comments', { comment: 1, id: 1 })
   response.json(blogs)
 })
 
@@ -51,7 +52,6 @@ blogsRouter.delete('/:id', async (request, response) => {
   } else {
     return response.status(401).json({ error: 'user is not creator of blog' })
   }
-
   
 })
 
@@ -68,4 +68,18 @@ blogsRouter.put('/:id', async (request, response, next) => {
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
   response.json(updatedBlog)
 })
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const comment = new Comment({
+      blog: request.params.id,
+      comment: request.body.comment,
+  })
+
+  const blog = await Blog.findById(request.params.id)
+  const savedComment = await comment.save()
+  blog.comments = blog.comments.concat(savedComment._id)
+  await blog.save()
+  response.status(201).json(savedComment)
+})
+
 module.exports = blogsRouter

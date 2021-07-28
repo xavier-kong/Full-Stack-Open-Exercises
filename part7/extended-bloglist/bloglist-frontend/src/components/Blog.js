@@ -66,9 +66,18 @@ const Blog = () => {
         ? <button onClick={deleteBlogs} id='deletebutton'>delete</button> 
         : null}
       </div>
-
+      <div>
+          <h2>comments</h2>
+          <ul>
+            {blog.comments
+              .map(comment => 
+                <li key={comment.id}>{comment.comment}</li>
+              )}
+          </ul>
+      </div>  
     </div>
   )
 }
+
 
 export default Blog
