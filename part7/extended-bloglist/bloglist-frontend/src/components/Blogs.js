@@ -12,7 +12,6 @@ const Blogs = () => {
   }, [dispatch])
 
   const blogs = useSelector(state => state.blogs)
-
   const user = useSelector(state => state.user)
 
   const addLikes = async (newBlog) => {
