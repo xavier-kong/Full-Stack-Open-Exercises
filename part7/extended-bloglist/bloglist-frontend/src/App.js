@@ -3,14 +3,17 @@ import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import BlogForm from './components/AddBlogs'
+import UserView from './components/UserView'
 import Notification from './components/Notification'
 import { useSelector } from 'react-redux'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 const App = () => {
 
   const user = useSelector(state => state.user)
 
   return (
+    <>
     <div className = "main">
       <Notification />
       <div className = 'headtitle'><h1>Blogslist App</h1></div>
@@ -24,11 +27,22 @@ const App = () => {
             {user.name} logged in&nbsp;
             <Logout />
           </div>
-          <BlogForm />
-          <Blogs />
         </>
       }
     </div>
+
+    <Router>
+      <Switch>
+        <Route path='/users'>
+          <UserView />
+        </Route>
+        <Route path='/'>
+          <BlogForm />
+          <Blogs />
+        </Route>
+      </Switch>
+    </Router>
+  </>
   )
 }
 

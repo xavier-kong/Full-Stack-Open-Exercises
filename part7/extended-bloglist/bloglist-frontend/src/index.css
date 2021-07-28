@@ -28,3 +28,14 @@
   margin: 0;
 }
 
+#user_view_table {
+  width: 20%
+}
+
+#table_user_name {
+  text-align: left
+}
+
+#table_heading {
+  text-decoration: underline;
+}
