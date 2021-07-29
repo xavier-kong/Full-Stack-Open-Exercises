@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { getAllUsers } from '../reducers/usersReducer'
+import { Table } from 'react-bootstrap'
 
 const User = () => {
   const id = useParams().id
@@ -24,12 +25,17 @@ const User = () => {
     <div>
       <h1>{user.name}</h1>
       <h3>added blogs</h3>
-      <ul>
-      {user.blogs.map(blog => 
-        <li key={blog.id}>{blog.title}</li>
-        )}
-      </ul>
-      
+      <Table>
+        <tbody>
+          {user.blogs.map(blog => 
+            <tr key={blog.id}>
+              <td>
+                {blog.title}
+              </td>
+            </tr>
+            )}
+        </tbody>
+      </Table>
     </div>
   )
 }

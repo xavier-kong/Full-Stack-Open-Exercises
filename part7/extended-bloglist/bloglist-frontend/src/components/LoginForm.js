@@ -4,6 +4,7 @@ import blogService from '../services/blogs'
 import loginService from '../services/login'
 import { setUser } from '../reducers/userReducer'
 import { setErrorMessage } from '../reducers/notificationReducer' 
+import { Button, Form } from 'react-bootstrap'
 
 export const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -39,29 +40,27 @@ export const LoginForm = () => {
   
   return (
     <>
-      <form onSubmit={handleLogin}>
-        <div>
-        username&nbsp;
-          <input
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username&nbsp;</Form.Label>
+          <Form.Control
             id='usernamefield'
             type="text"
             value={username}
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
-        password&nbsp;
-          <input
+        <Form.Label>password&nbsp;</Form.Label>
+          <Form.Control
             id='passwordfield'
             type="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit" id='loginsubmit'>login</button>
-      </form>
+          /><br />
+        <Button type="submit" id='loginsubmit'>login</Button>
+        </Form.Group>
+      </Form>
     </>
   )
 }

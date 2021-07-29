@@ -4,6 +4,8 @@ import { useParams } from 'react-router'
 import { setErrorMessage } from '../reducers/notificationReducer'
 import { initializeBlogs, likeBlog, deleteBlog } from '../reducers/blogReducer'
 import CommentForm from './CommentForm'
+import { Button } from 'react-bootstrap'
+import { FaThumbsUp } from 'react-icons/fa'
 
 const Blog = () => {
   const id = useParams().id
@@ -53,9 +55,9 @@ const Blog = () => {
       <div>url: {blog.url}</div><br />
 
       <div id='bloglikes'>likes: {blog.likes}&nbsp;
-        <button onClick={addLike} id='likebutton'>
-          like
-        </button>
+        <Button onClick={addLike} id='likebutton'>
+          like <FaThumbsUp />
+        </Button>
       </div><br />
 
       {((blog.user!==undefined) 
@@ -64,7 +66,7 @@ const Blog = () => {
 
       <div>
         {((blog.user && user.name === blog.user.name)) 
-        ? <button onClick={deleteBlogs} id='deletebutton'>delete</button> 
+        ? <Button onClick={deleteBlogs} id='deletebutton'>delete</Button> 
         : null}
       </div>
       <div>

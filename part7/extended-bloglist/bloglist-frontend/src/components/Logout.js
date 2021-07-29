@@ -2,6 +2,7 @@ import React from 'react'
 import { logoutUser } from '../reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { setErrorMessage } from '../reducers/notificationReducer'
+import { Button } from 'react-bootstrap'
 
 const Logout = () => {
   const dispatch = useDispatch()
@@ -13,7 +14,7 @@ const Logout = () => {
   }
 
   return (
-    <button onClick={handleLogout}>logout</button>
+    <Button onClick={handleLogout}>logout</Button>
   )
 }
 

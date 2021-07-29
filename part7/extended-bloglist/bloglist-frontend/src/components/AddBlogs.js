@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { setErrorMessage } from '../reducers/notificationReducer' 
 import Togglable from './Togglable'
+import { Form, Button } from 'react-bootstrap'
 
 const AddBlogs = React.forwardRef((props, ref) => {
   const [title, setTitle] = useState('')
@@ -10,7 +11,6 @@ const AddBlogs = React.forwardRef((props, ref) => {
   const [url, setUrl] = useState('')
   const dispatch = useDispatch()
   
-
   const addNewBlog = async (newBlog) => {
     ref.current.toggleVisibility()
     try {
@@ -36,39 +36,36 @@ const AddBlogs = React.forwardRef((props, ref) => {
   return (
     <>
       <h2>create new</h2>
-      <form onSubmit={addBlog}>
-        <div>
-        title&nbsp;
-          <input
+      <Form>
+        <Form.Group>
+        <Form.Label>title&nbsp;</Form.Label>
+          <Form.Control
             type="text"
             value={title}
             name="Title"
             onChange={({ target }) => setTitle(target.value)}
             id="title"
           />
-        </div>
-        <div>
-        author&nbsp;
-          <input
+        <Form.Label>author&nbsp;</Form.Label>
+          <Form.Control
             type="text"
             value={author}
             name="Author"
             onChange={({ target }) => setAuthor(target.value)}
             id="author"
           />
-        </div>
-        <div>
-        url&nbsp;
-          <input
+          <Form.Label>url&nbsp;</Form.Label>
+          <Form.Control
             type="text"
             value={url}
             name="Url"
             onChange={({ target }) => setUrl(target.value)}
             id="url"
           />
-        </div>
-        <button type="submit" id='submitblog'>create</button>
-      </form>
+        <br />
+        </Form.Group>
+      </Form>
+      <Button variant='primary' onClick={addBlog} id='submitblog'>create</Button>&nbsp;
     </>
   )
 }
