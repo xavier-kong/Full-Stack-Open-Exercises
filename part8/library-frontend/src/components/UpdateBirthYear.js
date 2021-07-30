@@ -10,7 +10,7 @@ const UPDATE_AUTHOR = gql`
     }
   }
 `
-const UpdateBirthYear = () => {
+const UpdateBirthYear = ({ authors }) => {
   const [ name, setName ] = useState('')
   const [ born, setBorn ] = useState('')
 
@@ -18,9 +18,14 @@ const UpdateBirthYear = () => {
     refetchQueries: [ { query: ALL_AUTHORS } ]
   })
 
+  const handleChange = (event) => {
+    event.preventDefault()
+    setName(event.target.value);
+  }
+
   const submit = (event) => {
     event.preventDefault()
-    
+
     const year = Number(born)
     updateBirthYear({ variables: { name: name, setBornTo: year } })
 
@@ -34,10 +39,12 @@ const UpdateBirthYear = () => {
       <form onSubmit={submit}>
         <div>
           name
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+          <select value={name} onChange={handleChange}>
+            <option value='none'>Please select name</option>
+            {authors.data.allAuthors.map(a => 
+            <option value={a.name} key={a.name}>{a.name}</option>
+            )}
+          </select>
         </div>
         <div>
           born
