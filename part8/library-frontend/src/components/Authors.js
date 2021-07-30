@@ -1,8 +1,9 @@
   
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
+import UpdateBirthYear from './UpdateBirthYear'
 
-const ALL_AUTHORS = gql`
+export const ALL_AUTHORS = gql`
 query {
   allAuthors {
     name
@@ -47,6 +48,11 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
+    
+    <div>
+      <br />
+      <UpdateBirthYear />
+    </div>
 
     </div>
   )
