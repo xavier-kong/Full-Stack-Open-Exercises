@@ -54,15 +54,15 @@ const resolvers = {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: (root, args) => {
-      const books = Book.find({})
       if (args.author && args.genre) {
         return books.filter(book => (book.author === args.author && book.genres.includes(args.genre)))
       } else if (args.author) {
         return books.filter(book => book.author === args.author)
-      } else if (args.genre) {
-        return books.filter(book => book.genres.includes(args.genre))
-      } else {
         return books
+      } else if (args.genre) {
+        return Book.find({ genres: { $in: [args.genre] }})
+      } else {
+        return Book.find({})
       }
     },
     allAuthors: () => (Author.find({}))
