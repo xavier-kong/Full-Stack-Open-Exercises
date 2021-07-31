@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import { ALL_AUTHORS } from './Authors'
 
 const UPDATE_AUTHOR = gql`

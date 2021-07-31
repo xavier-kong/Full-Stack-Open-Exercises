@@ -1,14 +1,14 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 
-const ALL_BOOKS = gql`  
-query {
-  allBooks {
+export const ALL_BOOKS = gql`
+query allBooks($genre: String, $author: String) {
+  allBooks(genre: $genre, author: $author) {
     title
+    published
     author {
       name
     }
-    published
   }
 }
 `
@@ -21,7 +21,7 @@ const Books = (props) => {
     return null
   }
 
-  if ( books.loading ) {
+  if ( !books.data ) {
     return <div>loading...</div>
   }
 

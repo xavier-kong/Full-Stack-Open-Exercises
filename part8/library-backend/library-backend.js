@@ -91,7 +91,7 @@ const resolvers = {
   },
   Author: {
     bookCount: (root) => {
-      return Book.collection.countDocuments({ "author": [String(root._id)] })
+      return Book.collection.countDocuments({ "author": root._id })
     }
   },
   Mutation: {
@@ -100,8 +100,22 @@ const resolvers = {
       if (!currentUser) {
         throw new AuthenticationError("not authenticated")
       }
-      // add check for existing author
-      const book = new Book({ ...args })
+
+      let currAuthor = await Author.findOne({ name: args.author}, "_id")
+
+      if (currAuthor === null) {
+        const newAuthor = new Author({ name: args.author, born: null })
+        try {
+          await newAuthor.save()
+          currAuthor = newAuthor
+        } catch (error) {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        }
+      }
+
+      const book = new Book({ ...args, author: currAuthor._id })
       try {
         await book.save()
       } catch (error) {
@@ -118,8 +132,14 @@ const resolvers = {
       }
 
       const author = await Author.findOne({ name: args.name })
-      author.born = args.born
-      return author.save()
+      try {
+        const updatedAuthor = await Author.findByIdAndUpdate(author._id, { born: args.setBornTo }, { new: true })
+        return updatedAuthor
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
     },
     createUser: (root, args) => {
       const user = new User({ ...args })
