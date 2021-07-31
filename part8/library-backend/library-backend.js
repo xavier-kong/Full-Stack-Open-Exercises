@@ -30,15 +30,16 @@ const typeDefs = gql`
   }
   type Book {
     title: String!
-    author: Author!
+    author: Author
     published: Int!
     genres: [String]
     id: ID!
   }
   type Author {
     name: String!
+    id: ID!
     born: Int
-    bookCount: Int!
+    bookCount: Int
   }
   type Query {
     bookCount: Int!
@@ -82,7 +83,7 @@ const resolvers = {
       } else if (args.genre) {
         return Book.find({ genres: { $in: [args.genre] }})
       } else {
-        return Book.find({})
+        return Book.find({}).populate('author')
       }
     },
     allAuthors: () => (Author.find({})),
@@ -90,8 +91,7 @@ const resolvers = {
   },
   Author: {
     bookCount: (root) => {
-      const name = root.name
-      return (Book.countDocuments({ author:{name} }))
+      return Book.collection.countDocuments({ "author": [String(root._id)] })
     }
   },
   Mutation: {
@@ -100,7 +100,7 @@ const resolvers = {
       if (!currentUser) {
         throw new AuthenticationError("not authenticated")
       }
-
+      // add check for existing author
       const book = new Book({ ...args })
       try {
         await book.save()

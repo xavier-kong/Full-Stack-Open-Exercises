@@ -4,6 +4,7 @@ import { gql, useQuery } from '@apollo/client'
 import UpdateBirthYear from './UpdateBirthYear'
 
 export const ALL_AUTHORS = gql`
+
 query {
   allAuthors {
     name
@@ -16,12 +17,12 @@ query {
 const Authors = (props) => {
 
   const authors = useQuery(ALL_AUTHORS)
-
+  
   if (!props.show) {
     return null
   }
 
-  if ( authors.loading ) {
+  if ( !authors.data ) {
     return <div>loading...</div>
   }
   
