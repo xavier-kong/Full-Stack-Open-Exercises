@@ -1,14 +1,6 @@
 import React, { useState, useEffect} from 'react'
-import { gql, useLazyQuery, useQuery } from '@apollo/client'
-import { ALL_BOOKS } from './Books'
-
-const USER_INFO = gql`
-query {
-  me {
-    favoriteGenre
-  }
-}
-`
+import { useLazyQuery, useQuery } from '@apollo/client'
+import { ALL_BOOKS, USER_INFO } from '../graphql/queries'
 
 const Recommended = (props) => {
   const userInfo = useQuery(USER_INFO)
