@@ -1,5 +1,5 @@
-import React from 'react'
-import { gql, useQuery } from '@apollo/client'
+import React, { useState, useEffect} from 'react'
+import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import { ALL_BOOKS } from './Books'
 
 const USER_INFO = gql`
@@ -11,25 +11,35 @@ query {
 `
 
 const Recommended = (props) => {
+  const userInfo = useQuery(USER_INFO)
+  const [ getBooks, result ] = useLazyQuery(ALL_BOOKS)
+  const [ books, setBooks] = useState([])
 
-  const favGen = useQuery(USER_INFO)
-  const result = useQuery(ALL_BOOKS)
+  useEffect(() => {
+    if (userInfo.data) {
+      getBooks({ variables: { genre: userInfo.data.me.favoriteGenre } })
+    }
+  }, [userInfo, getBooks])
+
+  useEffect(() => {
+    if (result.data) {
+      setBooks(result.data.allBooks)
+    }
+  }, [result])
 
   if (!props.show) {
     return null
-  }
+  }  
 
-  if (!favGen.data || !result.data) {
+  if (!userInfo.data) {
     return (
       <div>loading...</div>
     )
   }
 
-  const books = result.data.allBooks.filter(book => book.genres.includes(favGen.data.me.favoriteGenre))
-
   return (
     <div>
-      books in your favourite genre <b>{favGen.data.me.favoriteGenre}</b>
+      books in your favourite genre <b>{userInfo.data.me.favoriteGenre}</b>
       <br />
       <table>
         <tbody>
