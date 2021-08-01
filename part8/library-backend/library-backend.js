@@ -1,11 +1,11 @@
-require('dotenv').config()
+
 const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
+require('dotenv').config()
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/books')
 const User = require('./models/user')
 const jwt = require('jsonwebtoken')
-
 const url = process.env.MONGODB_URI
 const JWT_SECRET = process.env.SECRET
 
@@ -68,6 +68,9 @@ const typeDefs = gql`
       password: String!
     ): Token
   }
+  type Subscription {
+    bookAdded: Book!
+  }
 `
 
 const resolvers = {
@@ -123,6 +126,9 @@ const resolvers = {
           invalidArgs: args,
         })
       }
+
+      pubsub.publish('BOOK_ADDED', {bookAdded: book})
+
       return book
     },
     editAuthor: async (root, args, { currentUser }) => {
@@ -165,8 +171,13 @@ const resolvers = {
   
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     }
-}}
-
+  },
+  Subscription: {
+    bookAdded: {
+      subcribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+    },
+  },
+}
 const server = new ApolloServer({
   typeDefs,
   resolvers,
