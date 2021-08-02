@@ -16,8 +16,8 @@ const parseArgs = (args: Array<string>): ExerciseInput => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 12) throw new Error('Too many arguments');
 
-  let hoursArr = []
-  for (var i = 3; i <= args.length-1; i++) {
+  const hoursArr = [];
+  for (let i = 3; i <= args.length-1; i++) {
     if (isNaN(Number(args[i]))) {
       throw new Error('Provided values were not numbers!');
     }
@@ -28,11 +28,11 @@ const parseArgs = (args: Array<string>): ExerciseInput => {
     return {
       target: Number(args[2]),
       days: hoursArr, 
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
 const calculateExercises = (target: number, hours: Array<number> ): Results => {
   const periodLength = hours.length;
@@ -63,11 +63,12 @@ const calculateExercises = (target: number, hours: Array<number> ): Results => {
     rating,
     ratingDescription
   };
-} 
+}; 
 
 try {
   const { target, days } = parseArgs(process.argv);
   console.log(calculateExercises(target, days));
 } catch (e) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   console.log('Error, something bad happened, message: ', e.message);
 }
