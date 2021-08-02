@@ -7,8 +7,34 @@ interface Results {
   rating: number;
   ratingDescription: string;
 }
+interface ExerciseInput {
+  target: number;
+  days: Array<number>;
+}
 
-const calculateExercises = (hours: Array<number>, target: number): Results => {
+const parseArgs = (args: Array<string>): ExerciseInput => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+  if (args.length > 12) throw new Error('Too many arguments');
+
+  let hoursArr = []
+  for (var i = 3; i <= args.length-1; i++) {
+    if (isNaN(Number(args[i]))) {
+      throw new Error('Provided values were not numbers!');
+    }
+    hoursArr.push(Number(args[i]));
+  }
+
+  if (!isNaN(Number(args[2]))) {
+    return {
+      target: Number(args[2]),
+      days: hoursArr, 
+    }
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+}
+
+const calculateExercises = (target: number, hours: Array<number> ): Results => {
   const periodLength = hours.length;
   const trainingDays = hours.reduce((total, hours) => (hours !== 0 ? total + 1 : total),0);
   const average = hours.reduce((a,b) => (a + b)) / periodLength;
@@ -39,4 +65,9 @@ const calculateExercises = (hours: Array<number>, target: number): Results => {
   };
 } 
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const { target, days } = parseArgs(process.argv);
+  console.log(calculateExercises(target, days));
+} catch (e) {
+  console.log('Error, something bad happened, message: ', e.message);
+}
